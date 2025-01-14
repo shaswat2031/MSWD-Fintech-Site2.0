@@ -1,176 +1,123 @@
-# Financial Goal Tracker Platform Documentation
 
-## **Project Overview**
-The Financial Goal Tracker platform is a user-friendly web application that helps individuals set financial goals, save money systematically, track their progress, and access educational resources on personal finance. Users can save for specific objectives (e.g., an emergency fund) and withdraw funds upon achieving their goals. Additionally, educational content is provided to enhance financial literacy after goal completion.
 
 ---
 
-## **Core Features**
-
-### 1. **User Authentication**
-- **Sign-Up and Login**:
-  - Easy-to-use registration and login system.
-  - Secure authentication using encrypted passwords.
-- **Forgot Password**:
-  - Option to reset passwords securely through email.
-- **Authentication Method**:
-  - Utilizes JSON Web Tokens (JWT) for secure, session-less authentication.
-  
-[Learn More About JWT Authentication](https://jwt.io/introduction)
-
-### 2. **Goal Creation**
-- Users can set up financial goals with these details:
-  - Goal Name (e.g., "Emergency Fund")
-  - Target Amount (e.g., $500)
-  - Time Frame (e.g., 3 months)
-- Goals are displayed on a visually intuitive dashboard for easy tracking.
-
-### 3. **Saving Money**
-- **Simulated Deposits**:
-  - Mock payment system enables users to simulate deposits.
-  - Each deposit updates the goal's progress.
-- **Progress Tracking**:
-  - Visual indicators like progress bars, percentages, or graphs show savings progress.
-  - Notifications for milestones (e.g., "50% of your goal achieved!").
-
-### 4. **Withdrawal System**
-- **Eligibility Criteria**:
-  - Withdrawal is enabled only after achieving the financial goal.
-- **Simple Request Process**:
-  - Users request withdrawals, and the system processes them automatically.
-
-### 5. **Financial Education**
-- Upon completion of a goal, users unlock exclusive educational content.
-- Topics include:
-  - Budgeting and Expense Management
-  - Savings Techniques
-  - Basics of Investments
-  - Credit and Debt Management
-
-[Explore Personal Finance Resources](https://www.investopedia.com/personal-finance-4427764)
+# **FinHack – Financial Management Platform**
 
 ---
 
-## **Technology Stack**
+## **1. Introduction**
 
-### **Frontend**
-- **React.js**: Builds an interactive and dynamic user interface.
-  
-[Get Started with React.js](https://react.dev/learn)
+### **1.1 Purpose**
+The purpose of this project is to develop a web-based financial management platform, **FinHack**, to assist users in managing their finances effectively. The platform aims to simplify expense tracking, loan management, and financial literacy through an intuitive and user-friendly interface.
 
-- **HTML & CSS**: Provides structure and responsive design.
-- **JavaScript**: Adds interactivity to the application.
+### **1.2 Background**
+Effective financial management is critical for achieving personal and organizational goals. Many users lack accessible tools to manage their expenses or understand financial concepts. FinHack is designed to address this gap by providing a platform that combines expense tracking, loan management, and educational resources.
 
-### **Backend**
-- **Node.js with Express.js**:
-  - Handles server-side logic and API requests.
-
-[Introduction to Node.js](https://nodejs.org/en/docs/guides/)
-
-### **Database**
-- **MongoDB**:
-  - A NoSQL database ensuring scalable and efficient data storage.
-
-[Learn MongoDB Basics](https://www.mongodb.com/docs/manual/tutorial/)
-
-### **Authentication**
-- **JWT**: A secure and lightweight method for authentication.
-
-### **Payment Simulation**
-- Placeholder system to simulate deposits and withdrawals.
+### **1.3 Scope**
+This project covers:
+- A secure user authentication system.
+- Expense management module to track and organize expenses.
+- Loan management tools for calculating repayment schedules.
+- Financial knowledge articles to improve financial literacy.
+- Responsive, hacker-themed UI for engaging user interaction.
 
 ---
 
-## **User Flow**
+## **2. Problem Statement**
+### **2.1 Problem Definition**
+Many individuals struggle to manage their finances due to a lack of accessible and integrated tools. This leads to inefficiencies in tracking expenses, handling loans, and making informed financial decisions.
 
-1. **Sign-Up/Login**:
-   - Users register or log in securely.
-
-   [Why Secure Authentication Matters](https://auth0.com/blog/what-is-authentication/)
-
-2. **Set a Financial Goal**:
-   - Define a goal with details like name, target amount, and time frame.
-
-3. **Deposit Money**:
-   - Use a mock payment system to deposit funds.
-
-4. **Track Progress**:
-   - Visualize your progress through charts or graphs.
-
-5. **Withdraw Funds**:
-   - Submit a withdrawal request upon goal completion.
-
-6. **Access Educational Content**:
-   - Unlock articles and lessons to enhance financial knowledge.
+### **2.2 Importance of Solving the Problem**
+Providing a centralized platform for financial management can empower users to:
+- Gain control over their expenses.
+- Manage loans efficiently.
+- Improve financial literacy for better decision-making.
 
 ---
 
-## **Development Roadmap**
-
-### **Phase 1: Setup**
-- Configure the MERN stack environment.
-- Design and test the database schema.
-
-### **Phase 2: Core Features**
-- Implement goal creation and tracking features.
-- Enable mock deposits and progress visualization.
-
-### **Phase 3: Withdrawals and Content**
-- Set up withdrawal requests.
-- Provide financial education resources.
-
-### **Phase 4: Testing and Deployment**
-- Conduct testing and deploy on platforms like AWS or Heroku.
-
-[Steps to Deploy MERN Applications](https://www.freecodecamp.org/news/deploy-a-mern-stack-app-on-heroku/)
+## **3. Objectives**
+1. Develop a secure and user-friendly authentication system.
+2. Build modules for expense and loan management with interactive dashboards.
+3. Provide educational resources for financial literacy.
+4. Implement a responsive design with a hacker theme for user engagement.
+5. Ensure the platform is scalable and performs well under load.
 
 ---
 
-## **Database Schema**
+## **4. Methodology**
 
-### **User Collection**
-| Field          | Type       | Description                  |
-|----------------|------------|------------------------------|
-| _id            | ObjectId   | Unique identifier            |
-| email          | String     | User email (unique)          |
-| password       | String     | Encrypted user password      |
-| createdAt      | Date       | Account creation timestamp   |
+### **4.1 Data Collection**
+- User data will be collected during registration and login.
+- Expense and loan details will be stored securely in a database.
 
-### **Goals Collection**
-| Field          | Type       | Description                  |
-|----------------|------------|------------------------------|
-| _id            | ObjectId   | Unique identifier            |
-| userId         | ObjectId   | Reference to User Collection |
-| name           | String     | Goal name                    |
-| targetAmount   | Number     | Target savings amount        |
-| savedAmount    | Number     | Current saved amount         |
-| completionDate | Date       | Target completion date       |
-| status         | String     | Status (e.g., ongoing, complete) |
+### **4.2 Tools/Technologies to be Used**
+1. **Frontend**: React.js, Tailwind CSS
+2. **Backend**: Node.js, Express.js
+3. **Database**: MongoDB
+4. **Authentication**: JWT (JSON Web Tokens)
+5. **Hosting/Deployment**: AWS, Vercel, or Heroku
 
----
-
-## **Future Enhancements**
-
-1. **Mobile Application**:
-   - Build mobile apps to improve accessibility.
-
-[Learn Mobile App Development](https://developer.android.com/)
-
-2. **Real Payment Gateway**:
-   - Integrate payment systems like Stripe or PayPal.
-
-[Payment Gateway Integration Guide](https://stripe.com/docs)
-
-3. **Community Features**:
-   - Add social sharing options for goals and tips.
-
-4. **Gamification**:
-   - Introduce badges, rewards, and leaderboards to motivate users.
-
-5. **Advanced Analytics**:
-   - Provide insights into user savings habits and trends.
-
-[Understanding User Analytics](https://www.optimizely.com/optimization-glossary/user-analytics/)
+### **4.3 Experimentation/Implementation Process**
+1. Design the frontend using React.js and Tailwind CSS.
+2. Implement RESTful APIs for the backend using Node.js and Express.js.
+3. Create a MongoDB database schema for users, expenses, and loans.
+4. Integrate user authentication using JWT.
+5. Deploy the application on a cloud platform.
 
 ---
 
+## **5. Project Plan**
+
+### **5.1 Timeline**
+| **Phase**             | **Timeline** | **Details**                                   |
+|------------------------|--------------|-----------------------------------------------|
+| Requirement Analysis   | Week 1       | Identify user needs and define requirements.  |
+| Frontend Development   | Week 2-3     | Build UI components and implement navigation. |
+| Backend Development    | Week 4-5     | Develop REST APIs and database integration.   |
+| Integration & Testing  | Week 6       | Combine frontend and backend, test features.  |
+| Deployment             | Week 7       | Deploy application and ensure scalability.    |
+
+### **5.2 Milestones**
+1. Completion of frontend design.
+2. Development of APIs for user authentication.
+3. Implementation of expense and loan management modules.
+4. Deployment and testing of the application.
+
+---
+
+## **6. Expected Deliverables**
+1. **Code**: Complete source code of the project (frontend and backend).
+2. **Database Schema**: MongoDB database schema for user and financial data.
+3. **Documentation**: Technical documentation, including API endpoints and setup instructions.
+4. **Presentation**: Slides summarizing the project objectives, implementation, and outcomes.
+
+---
+
+## **7. Evaluation Criteria**
+| **Criteria**                   | **Weightage (%)** |
+|---------------------------------|-------------------|
+| Literature Survey/Research      | 10%               |
+| Implementation/Experimentation  | 40%               |
+| Report Quality                  | 20%               |
+| Presentation Skills             | 20%               |
+| Usability and Design            | 10%               |
+
+---
+
+## **8. Submission Guidelines**
+- **Report**: Submit a PDF file covering all sections of the project.
+- **Code**: Provide a GitHub repository link with proper README and instructions.
+- **Presentation**: Submit slides in PDF or PPT format.
+- **Deadline**: February 28, 2025.
+- **Submission Mode**: Via an online portal or email.
+
+---
+
+## **9. References**
+1. React.js Documentation: [https://reactjs.org/docs](https://reactjs.org/docs)
+2. Tailwind CSS Documentation: [https://tailwindcss.com/docs](https://tailwindcss.com/docs)
+3. Node.js Documentation: [https://nodejs.org/en/docs](https://nodejs.org/en/docs)
+4. MongoDB Documentation: [https://www.mongodb.com/docs](https://www.mongodb.com/docs)
+
+--- 
