@@ -1,34 +1,32 @@
-Here's an outline for the documentation of your MERN stack project for a website with the three primary features: **Loan Management**, **Expense Management**, and **Financial Education**. The documentation will help you structure the project, set up its functionalities, and ensure a clean and user-friendly interface.
 
----
 
 # **Project Documentation: Financial Management Website**
 
 ## **1. Introduction**
 
-This project is a web application developed using the MERN (MongoDB, Express.js, React.js, Node.js) stack. The website offers the following features:
-- **Loan Management**: Track and manage loans, repayments, and due dates.
-- **Expense Management**: Monitor daily, monthly, and yearly expenses.
-- **Financial Education**: Interactive educational resources on personal finance, enhanced with 3D models for better engagement.
+This web application is built using the MERN (MongoDB, Express.js, React.js, Node.js) stack. The platform focuses on:
+- **Financial Education**: Educational articles to enhance users' financial literacy.
+- **Expense Management**: Expense tracking with data visualization (using Chart.js) and CSV export functionality.
+- **Loan Management**: Mock data to demonstrate loan and payment handling.
 
 ---
 
 ## **2. Features Overview**
 
-### **2.1 Loan Management**
-- Add, edit, and delete loans.
-- View repayment schedules and total balances.
-- Get notifications/reminders for upcoming due dates.
+### **2.1 Financial Education**
+- Browse financial articles organized by categories like budgeting, savings, and investments.
+- Search functionality to find specific topics.
+- Like and bookmark articles for quick access.
 
 ### **2.2 Expense Management**
-- Categorize expenses into predefined categories (e.g., food, rent, travel).
-- Visualize expense data with dynamic charts (e.g., pie charts, bar graphs).
-- Export reports in CSV or PDF format.
+- Add, edit, and delete expense records.
+- Visualize expenses using dynamic charts (e.g., pie charts, line charts).
+- Export expense records as a CSV file.
+- Sort expenses by category, date, or amount.
 
-### **2.3 Financial Education**
-- Educational articles, videos, and tutorials on financial literacy.
-- Interactive 3D models to illustrate concepts like compound interest, budgeting, etc.
-- Quizzes and assessments to test knowledge.
+### **2.3 Loan Management**
+- Display loan and repayment information using mock data.
+- Visualize loan balances, repayments, and due dates.
 
 ---
 
@@ -36,20 +34,20 @@ This project is a web application developed using the MERN (MongoDB, Express.js,
 
 ### **3.1 Frontend**
 - **React.js**: For building the user interface.
-- **Three.js**: To create and render 3D models.
-- **CSS Framework**: Use **Tailwind CSS** or **Material-UI** for clean and responsive design.
+- **Chart.js**: For creating interactive and visually appealing charts.
+- **CSS Framework**: Tailwind CSS or Material-UI for a clean and responsive design.
 
 ### **3.2 Backend**
 - **Node.js**: Server-side runtime.
 - **Express.js**: For building REST APIs.
 
 ### **3.3 Database**
-- **MongoDB**: To store user data, loan details, expenses, and educational content.
+- **MongoDB**: For storing articles and expense data.
+- **Mock Data**: Static JSON files for loan management.
 
 ### **3.4 Additional Tools**
-- **JWT Authentication**: Secure user login and sessions.
-- **Chart.js or D3.js**: For visualizing expense data.
-- **Cloudinary/S3**: To store and serve media files (e.g., 3D models, videos).
+- **CSV Parsing Libraries**: For generating CSV files (e.g., `papaparse` or `json2csv`).
+- **JWT Authentication**: Secure user sessions.
 
 ---
 
@@ -62,7 +60,7 @@ project/
 │   ├── public/            # Static files
 │   ├── src/
 │       ├── components/    # Reusable components
-│       ├── pages/         # Pages (Home, Loan, Expense, Education)
+│       ├── pages/         # Pages (Home, Articles, Expenses, Loans)
 │       ├── styles/        # CSS/SCSS
 │       ├── utils/         # Helper functions
 │       ├── App.js         # Main app entry point
@@ -74,69 +72,96 @@ project/
 │   ├── middlewares/       # Middleware (e.g., auth)
 │   ├── server.js          # Main server entry point
 │
+├── mock-data/             # JSON files for mock loan data
+│   ├── loans.json
+│
 ├── package.json           # Dependencies and scripts
 ├── README.md              # Documentation
 ```
 
 ---
 
-## **5. API Endpoints**
+## **5. Features and Functionalities**
 
-### **5.1 Loan Management**
-- `POST /api/loans` - Add a new loan.
-- `GET /api/loans` - Fetch all loans for a user.
-- `PUT /api/loans/:id` - Update a loan by ID.
-- `DELETE /api/loans/:id` - Delete a loan by ID.
+### **5.1 Financial Education**
+- **APIs**:
+  - `POST /api/articles` - Add a new article.
+  - `GET /api/articles` - Fetch all articles.
+  - `GET /api/articles/:id` - Fetch a specific article by ID.
+  - `PUT /api/articles/:id` - Update an article.
+  - `DELETE /api/articles/:id` - Delete an article.
+- **Frontend Features**:
+  - Display articles in a card layout.
+  - Filter by categories or search by keywords.
+  - Bookmark articles for future reference.
 
 ### **5.2 Expense Management**
-- `POST /api/expenses` - Add a new expense.
-- `GET /api/expenses` - Fetch all expenses for a user.
-- `GET /api/expenses/reports` - Generate expense reports.
+- **APIs**:
+  - `POST /api/expenses` - Add a new expense.
+  - `GET /api/expenses` - Fetch all expenses.
+  - `GET /api/expenses/reports` - Fetch categorized expense data.
+  - `PUT /api/expenses/:id` - Update an expense.
+  - `DELETE /api/expenses/:id` - Delete an expense.
+- **Frontend Features**:
+  - Add expenses with fields: amount, category, date, and description.
+  - Display expense data in a tabular format.
+  - Sort expenses by category, date, or amount.
+  - Visualize expenses using Chart.js (e.g., pie chart for category distribution).
+  - Export expenses to a CSV file.
 
-### **5.3 Financial Education**
-- `GET /api/education` - Fetch educational content.
-- `POST /api/education/quiz` - Submit quiz results.
+### **5.3 Loan Management**
+- **Mock Data**:
+  - Stored in a `loans.json` file:
+    ```json
+    [
+      {
+        "loanId": "1",
+        "type": "Personal Loan",
+        "amount": 5000,
+        "balance": 2000,
+        "dueDate": "2025-02-01",
+        "status": "Ongoing"
+      },
+      {
+        "loanId": "2",
+        "type": "Home Loan",
+        "amount": 200000,
+        "balance": 150000,
+        "dueDate": "2025-06-15",
+        "status": "Ongoing"
+      }
+    ]
+    ```
+- **Frontend Features**:
+  - Display loan details in a card format.
+  - Show repayment schedules and due dates.
+  - Visualize loan balances with simple bar charts.
 
 ---
 
 ## **6. Home Page Design**
 
 ### **6.1 UI Layout**
-- **Header**: Navigation menu with links to Loan Management, Expense Management, Financial Education, and User Profile.
-- **Hero Section**: A banner highlighting the purpose of the website with an eye-catching 3D model.
-- **Feature Highlights**: Cards or sections showcasing the three primary features.
-- **Footer**: Contact information, social media links, and copyright details.
+- **Header**: Navigation menu with links to Financial Education, Expense Management, Loan Management, and User Profile.
+- **Hero Section**: A clean banner introducing the application.
+- **Feature Highlights**: 
+  - Cards summarizing key features: "Learn Finance," "Track Expenses," and "Manage Loans."
+- **Footer**: Basic footer with links and contact information.
 
 ### **6.2 Clean UI Principles**
-- Use a **minimalistic design** for clarity.
-- Apply a **consistent color scheme** (e.g., blue and white for a professional look).
-- Ensure **responsive design** for mobile and desktop devices.
+- Use a minimalistic design to enhance clarity.
+- Maintain a consistent color scheme (e.g., green and white for financial themes).
+- Ensure responsive design for all devices.
 
 ---
 
-## **7. Key Functionalities**
+## **7. Installation and Setup**
 
-### **7.1 Authentication**
-- User registration and login.
-- Password recovery and update profile functionality.
-
-### **7.2 Notifications**
-- Real-time or scheduled notifications for loan due dates and budget alerts.
-
-### **7.3 Interactive 3D Models**
-- Use Three.js to create financial education models, such as:
-  - Visualizing compound interest growth.
-  - Demonstrating budget allocation.
-
----
-
-## **8. Installation and Setup**
-
-### **8.1 Prerequisites**
+### **7.1 Prerequisites**
 - Node.js and npm installed.
 - MongoDB database setup.
 
-### **8.2 Steps**
+### **7.2 Steps**
 1. Clone the repository:
    ```bash
    git clone <repository-url>
@@ -171,14 +196,11 @@ project/
 
 ---
 
-## **9. Future Enhancements**
-- Add advanced financial analytics and AI-based insights.
-- Introduce gamification for financial education.
-- Enable multi-language support.
+## **8. Future Enhancements**
+- Add more sorting and filtering options for expenses.
+- Introduce article recommendations based on user preferences.
+- Enable loan application and repayment tracking with real-time data.
 
 ---
 
-## **10. Conclusion**
-This project aims to simplify financial management and education with an intuitive design and interactive features. By leveraging the MERN stack and modern technologies like Three.js, the application ensures both functionality and a great user experience.
-
-Would you like additional details on any specific section?
+This documentation covers the main requirements of your project. Let me know if you need help with implementation or any specific section!
