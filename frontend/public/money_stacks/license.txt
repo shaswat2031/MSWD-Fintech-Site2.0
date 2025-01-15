@@ -1,0 +1,11 @@
+Model Information:
+* title:	Money Stacks
+* source:	https://sketchfab.com/3d-models/money-stacks-1998b42922be4cbbb752de8b307bdaf4
+* author:	streetpharmacy (https://sketchfab.com/streetpharmacy)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Money Stacks" (https://sketchfab.com/3d-models/money-stacks-1998b42922be4cbbb752de8b307bdaf4) by streetpharmacy (https://sketchfab.com/streetpharmacy) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
