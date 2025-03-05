@@ -1,19 +1,26 @@
-// articleRoutes.js
+// routes/articleRoutes.js
 const express = require('express');
 const router = express.Router();
-const Article = require('../models/Article'); // Assuming you have a model for Articles
+const Article = require('../models/Article');  // Ensure this is pointing to your correct Article model
 
-// Get article by ID
-router.get('/:id', async (req, res) => {
+// Get all articles with pagination and sorting by creation date
+router.get('/', async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+
   try {
-    const article = await Article.findById(req.params.id);
-    if (!article) {
-      return res.status(404).json({ message: 'Article not found' });
+    const articles = await Article.find()
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    if (articles.length === 0) {
+      return res.status(404).json({ message: 'No articles found' });
     }
-    res.json(article);
+    res.json(articles);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    console.error('Error fetching articles:', error);
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
 });
 

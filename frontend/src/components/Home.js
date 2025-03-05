@@ -1,207 +1,115 @@
-import React, { useState, Suspense } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls, useGLTF } from "@react-three/drei";
+import { motion } from "framer-motion";
 
 const Home = () => {
   const navigate = useNavigate();
-
-  // GLTF Model Loader Components
-  const MoneyModel = () => {
-    const gltf = useGLTF("/money_stacks/scene.gltf");
-    return <primitive object={gltf.scene} scale={8} />;
-  };
-
-
-
-
   const [selectedMember, setSelectedMember] = useState(null);
 
-  // Team Members Data
   const teamMembers = [
     {
       name: "Sugam Bhardwaj",
       role: "UI/UX Designer",
-      details:
-        "Sugam is a UI/UX designer with a passion for creating beautiful and user-friendly interfaces.",
+      details: "Sugam is a creative UI/UX designer with a deep understanding of modern design trends. He specializes in crafting visually stunning and user-friendly interfaces to enhance the overall experience.",
+      image: "https://source.unsplash.com/200x200/?designer,person"
     },
     {
       name: "Mann Patel",
       role: "Frontend Developer",
-      details:
-        "Mann is a frontend developer who loves building web applications with React. He also loves to play with data.",
+      details: "Mann is an expert in React and JavaScript, creating dynamic and interactive user interfaces. His attention to detail ensures that web applications are both functional and aesthetically pleasing.",
+      image: "https://source.unsplash.com/200x200/?developer,coding"
     },
     {
       name: "Prasad Shaswat",
       role: "Full Stack Developer",
-      details:
-        "Prasad is a full stack developer who enjoys working with both frontend and backend technologies. He is a MERN stack developer.",
+      details: "Prasad is skilled in both frontend and backend development, building scalable web applications with the MERN stack. He ensures smooth integration between client and server.",
+      image: "https://source.unsplash.com/200x200/?technology,person"
     },
     {
-      name: "Siddharth Singh",
+      name: "Soham Parasakar",
       role: "Backend Developer",
-      details:
-        "Siddharth is a backend developer who specializes in building scalable and secure APIs. He is also a data enthusiast.",
+      details: "Soham specializes in designing secure and efficient backend architectures. He is proficient in handling databases, APIs, and optimizing performance for seamless user experiences.",
+      image: "https://source.unsplash.com/200x200/?backend,server"
     },
+    {
+      name: "Tejas Borase",
+      role: "Backend Developer",
+      details: "Tejas is passionate about backend development, ensuring high-performance data management and API security. His work focuses on optimizing server-side operations.",
+      image: "https://source.unsplash.com/200x200/?programmer,developer"
+    }
   ];
 
-  const handleLogout = () => {
-    localStorage.removeItem("userInfo");
-    navigate("/");
-  };
   return (
-    <div className="min-h-screen bg-gray-900 text-green-400">
+    <div className="min-h-screen bg-gradient-to-b from-gray-800 via-gray-900 to-black text-white">
       {/* Navbar */}
-      <nav className="flex justify-between items-center px-6 py-4 bg-gray-800">
-        <div className="text-2xl font-bold">FinHack</div>
+      <nav className="flex justify-between items-center px-8 py-5 bg-gray-950 bg-opacity-90 shadow-lg">
+        <span className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
+          FinHack
+        </span>
         <div className="flex space-x-6">
-          <button
-            onClick={() => navigate("/expense-management")}
-            className="hover:text-green-300"
-          >
-            Expense Management
-          </button>
-          <button
-            onClick={() => navigate("/loan-management")}
-            className="hover:text-green-300"
-          >
-            Loan Management
-          </button>
-          <button
-            onClick={() => navigate("/financial-knowledge")}
-            className="hover:text-green-300"
-          >
-            Financial Knowledge
-          </button>
-          <button onClick={handleLogout} className="hover:text-green-300">
-            Logout
-          </button>
+          {["Expense Management", "Loan Management", "Financial Knowledge"].map((item, index) => (
+            <motion.button
+              key={index}
+              onClick={() => navigate(`/${item.toLowerCase().replace(/\s+/g, "-")}`)}
+              whileHover={{ scale: 1.1 }}
+              className="hover:text-blue-400 transition-all duration-300"
+            >
+              {item}
+            </motion.button>
+          ))}
         </div>
+        <button className="px-5 py-2 bg-red-500 hover:bg-red-400 text-white rounded-lg font-semibold shadow-md transition-all">
+          Logout
+        </button>
       </nav>
 
-
-      
-
       {/* Hero Section */}
-      <header className="flex items-center justify-between px-8 py-20 w-full">
-        {/* Left Side: Text Content */}
-        <div className="w-1/2 text-left">
-          <h1 className="text-4xl font-extrabold mb-4">
-            Welcome to <span className="text-green-500">FinHack</span>
-          </h1>
-          <p className="mt-4 text-lg">
-            Your one-stop solution for managing expenses, loans, and financial
-            literacy.
-          </p>
-          <button
-            onClick={() => navigate("/expense-management")}
-            className="mt-6 px-6 py-3 bg-green-500 text-gray-900 font-bold rounded hover:bg-green-400"
-          >
+      <header className="flex flex-col lg:flex-row items-center justify-between px-8 py-24">
+        <motion.div className="text-left lg:w-1/2"
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}>
+          <h1 className="text-5xl font-extrabold mb-4 text-blue-400">Welcome to <span className="text-white">FinHack</span></h1>
+          <p className="mt-4 text-lg text-gray-300">Your smart financial assistant for managing expenses, loans, and financial literacy.</p>
+          <motion.button onClick={() => navigate("/expense-management")}
+            className="mt-8 px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-400 transition-all shadow-lg"
+            whileHover={{ scale: 1.05 }}>
             Get Started
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
+        <motion.div className="w-full lg:w-1/2 flex justify-center mt-12 lg:mt-0"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6 }}>
+          <img src="https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8bW9uZXl8ZW58MHx8MHx8fDA%3D"
+            alt="Financial Management"
+            className="w-4/5 rounded-lg shadow-lg" />
+        </motion.div>
+      </header>
 
-        {/* Right Side: 3D Money Model */}
-          <div className="w-1/2 flex justify-center">
-            <Canvas camera={{ position: [2, 2, 2] }}>
-              <ambientLight />
-              <pointLight position={[20, 20, 10]} />
-              <MoneyModel />
-              <OrbitControls enableZoom={true} maxDistance={4} minDistance={1.5} />
-            </Canvas>
-          </div>
-              </header>
-              
-              {/* Our Team Section */}
-      <section className="py-20 bg-gray-800 text-white">
-        <h2 className="text-center text-3xl font-bold">Our Team</h2>
-        <div className="flex flex-col lg:flex-row items-start justify-center mt-10 gap-10">
-          {/* Team Member Cards */}
-          <div className="flex flex-col space-y-6">
-            {teamMembers.map((member, index) => (
-              <div
-                key={index}
-                className={`w-64 bg-gray-700 p-6 rounded-lg cursor-pointer transition-transform hover:scale-105 ${
-                  selectedMember === member.name
-                    ? "border-4 border-green-400"
-                    : ""
-                }`}
-                onClick={() => setSelectedMember(member.name)}
-              >
-                <h3 className="text-xl font-bold">{member.name}</h3>
-                <p className="mt-2">{member.role}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* Selected Member Details */}
-          <div className="w-full lg:w-1/2 bg-gray-700 p-6 rounded-lg">
-            {selectedMember ? (
-              <>
-                <h3 className="text-2xl font-bold">
-                  {
-                    teamMembers.find((member) => member.name === selectedMember)
-                      ?.name
-                  }
-                </h3>
-                <p className="mt-2 text-green-400">
-                  {
-                    teamMembers.find((member) => member.name === selectedMember)
-                      ?.role
-                  }
-                </p>
-                <p className="mt-4">
-                  {
-                    teamMembers.find((member) => member.name === selectedMember)
-                      ?.details
-                  }
-                </p>
-              </>
-            ) : (
-              <p className="text-center text-gray-400">
-                Click on a team member to view details.
-              </p>
-            )}
-          </div>
+      {/* Team Section */}
+      <section className="py-24">
+        <h2 className="text-center text-4xl font-bold text-white mb-12">Meet Our Team</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 px-6">
+          {teamMembers.map((member, index) => (
+            <motion.div key={index} className="bg-gray-800 p-8 rounded-lg shadow-xl hover:scale-105 transition-transform cursor-pointer"
+              onClick={() => setSelectedMember(member.name)} whileHover={{ scale: 1.05 }}>
+              <h3 className="text-2xl font-bold text-white">{member.name}</h3>
+              <p className="mt-2 text-gray-400">{member.role}</p>
+              {selectedMember === member.name && (
+                <motion.div className="mt-4 text-gray-300" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                  <p>{member.details}</p>
+                </motion.div>
+              )}
+            </motion.div>
+          ))}
         </div>
       </section>
-      {/* why i created these porect these proejct Basicallty MEARN preoject submit ot maskud sir and problemsstatemnt and soltukon  */}
-      {/* /* Features Section */}
-      <section className="py-10 bg-gray-900 text-center">
-        <h2 className="text-3xl font-bold">Why FinHack?</h2>
-        <div className="flex flex-col lg:flex-row items-center justify-center mt-10 gap-10">
-          {/* Feature Cards */}
-          <div className="flex flex-col lg:flex-row space-y-6 lg:space-y-0 lg:space-x-6">
-            <div className="w-64 bg-gray-700 p-6 rounded-lg">
-              <h3 className="text-xl font-bold">Expense Management</h3>
-              <p className="mt-2">
-                Keep track of your expenses and manage your budget effectively.
-              </p>
-            </div>
-            <div className="w-64 bg-gray-700 p-6 rounded-lg">
-              <h3 className="text-xl font-bold">Loan Management</h3>
-              <p className="mt-2">
-                Manage your loans and keep track of your repayments.
-              </p>
-            </div>
-            <div className="w-64 bg-gray-700 p-6 rounded-lg">
-              <h3 className="text-xl font-bold">Financial Knowledge</h3>
-              <p className="mt-2">
-                Learn about personal finance and make informed decisions.
-              </p>
-            </div>
-            <div className="w-64 bg-gray-700 p-6 rounded-lg">
-              <h3 className="text-xl font-bold">USer Esaily ACcesed UI</h3>
-              <p className="mt-2">
-                Learn about personal finance and make informed decisions.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-      
-      <footer className="bg-gray-700 text-white font-bold text-2xl text-center py-4">
-        <p>&copy; 2025 FinHack. All rights reserved.</p>
+
+      {/* Footer */}
+      <footer className="bg-gray-950 text-white py-8 text-center">
+        <p className="font-semibold">&copy; 2025 FinHack. All rights reserved.</p>
+        <p className="text-sm mt-4">Created with ❤️ by FinHack Team</p>
       </footer>
     </div>
   );

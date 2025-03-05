@@ -1,12 +1,22 @@
-// routes/loanRoutes.js
 const express = require('express');
-const { createLoan, makePayment, getLoanStatus } = require('../controllers/loanController');
-
 const router = express.Router();
 
-// Routes
-router.post('/create', createLoan);         // Create loan
-router.post('/pay', makePayment);           // Make a payment
-router.get('/status/:loanId', getLoanStatus); // Get loan status
+// Import the controller functions
+const {
+  createLoan,
+  getLoanStatus,
+  getAllLoans,
+  getLoanByUser,
+  getOngoingLoans, // Make sure to import this function
+  makePayment,
+} = require('../controllers/loanController');
+
+// Define your routes
+router.post('/create', createLoan);
+router.get('/status/:loanId', getLoanStatus);
+router.get('/all', getAllLoans);
+router.get('/user/:user', getLoanByUser);
+router.get('/ongoing', getOngoingLoans); // Fetch all ongoing loans
+router.post('/pay', makePayment);
 
 module.exports = router;

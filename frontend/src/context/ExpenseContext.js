@@ -1,4 +1,3 @@
-// ExpenseContext.js
 import React, { createContext, useState } from 'react';
 
 const ExpenseContext = createContext();
@@ -20,11 +19,23 @@ export const ExpenseProvider = ({ children }) => {
   };
 
   const deleteExpense = (id) => {
-    setExpenses(expenses.filter(expense => expense._id !== id));
+    setExpenses(expenses.filter((expense) => expense._id !== id));
+  };
+
+  const clearAllExpenses = () => {
+    setExpenses([]); // Clears all expenses
   };
 
   return (
-    <ExpenseContext.Provider value={{ expenses, fetchExpenses, addExpense, deleteExpense }}>
+    <ExpenseContext.Provider
+      value={{
+        expenses,
+        fetchExpenses,
+        addExpense,
+        deleteExpense,
+        clearAllExpenses, // Include this function
+      }}
+    >
       {children}
     </ExpenseContext.Provider>
   );

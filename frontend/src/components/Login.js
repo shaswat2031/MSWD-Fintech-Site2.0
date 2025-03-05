@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import './Login.css';
 
@@ -7,26 +7,42 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    // Basic validation
+    if (!email || !password) {
+      setError('Please fill in all fields.');
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+
     try {
       const { data } = await axios.post('http://localhost:5000/api/users/login', { email, password });
-      localStorage.setItem('userInfo', JSON.stringify(data));
-      navigate('/home');
-    } catch {
-      setError('Invalid email or password');
+      localStorage.setItem('userInfo', JSON.stringify(data)); // Save user info in localStorage
+      navigate('/home'); // Redirect to home page after successful login
+    } catch (err) {
+      setError(err.response?.data?.message || 'Invalid email or password. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white">
-      <form onSubmit={handleLogin} className="form space-y-4">
-        <h2 className="text-xl font-bold text-center">Login</h2>
-        {error && <p className="text-red-500 text-center">{error}</p>}
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-gray-800 to-gray-900 text-white">
+      <form onSubmit={handleLogin} className="form space-y-6 bg-gray-700 p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h2 className="text-3xl font-bold text-center text-blue-400 mb-6">Login</h2>
         
-        <span className="input-span">
+        {/* Error Message */}
+        {error && <p className="text-red-400 text-center">{error}</p>}
+
+        {/* Email Input */}
+        <div className="input-span">
           <label htmlFor="email" className="label">Email</label>
           <input
             type="email"
@@ -35,10 +51,12 @@ const Login = () => {
             className="input-field"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email"
           />
-        </span>
+        </div>
 
-        <span className="input-span">
+        {/* Password Input */}
+        <div className="input-span">
           <label htmlFor="password" className="label">Password</label>
           <input
             type="password"
@@ -47,16 +65,26 @@ const Login = () => {
             className="input-field"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            placeholder="Enter your password"
           />
-        </span>
+        </div>
 
-        
+        {/* Submit Button */}
+        <button
+          type="submit"
+          className="submit-btn bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded transition-all duration-300"
+          disabled={loading}
+        >
+          {loading ? 'Logging in...' : 'Log in'}
+        </button>
 
-        <input className="submit" type="submit" value="Log in" />
-        
-        <span className="span">
-          Don't have an account? <a href="/register" className="sign-up">Sign up</a>
-        </span>
+        {/* Sign Up Link */}
+        <p className="text-center text-gray-300">
+          Don't have an account?{' '}
+          <Link to="/register" className="text-blue-400 hover:text-blue-300">
+            Sign up
+          </Link>
+        </p>
       </form>
     </div>
   );

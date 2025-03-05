@@ -73,3 +73,18 @@
     color: var(--clr);
   }
   
+  .tab {
+    padding: 10px 20px;
+    border: 2px solid #38a169;
+    color: #38a169;
+    background: transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+  }
+  
+  .tab:hover, .tab-active {
+    background: #38a169;
+    color: #1a202c;
+  }
+  

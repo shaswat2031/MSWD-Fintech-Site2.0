@@ -1,164 +1,50 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const FinancialKnowledge = () => {
-  const [activeTab, setActiveTab] = useState('Articles');
   const [articles, setArticles] = useState([]);
-  const [activeTool, setActiveTool] = useState(null);
-  const [toolData, setToolData] = useState({});
 
-  // Fetch Articles
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/articles');
+        const response = await axios.get('http://localhost:5000/api/scrape/financial-news?page=1&pageSize=100');
         setArticles(response.data);
       } catch (error) {
         console.error('Error fetching articles:', error);
       }
     };
-
     fetchArticles();
   }, []);
 
-  // Tool Calculations
-  const calculateLoan = () => {
-    const { loanAmount, interestRate, years } = toolData;
-    const rate = interestRate / 100 / 12;
-    const n = years * 12;
-    const monthlyPayment = (loanAmount * rate) / (1 - Math.pow(1 + rate, -n));
-    return `Monthly Payment: $${monthlyPayment.toFixed(2)}`;
-  };
-
-  const calculateInvestment = () => {
-    const { principal, rate, time } = toolData;
-    const total = principal * Math.pow(1 + rate / 100, time);
-    return `Investment Value: $${total.toFixed(2)}`;
-  };
-
-  const calculateInflation = () => {
-    const { currentPrice, inflationRate, years } = toolData;
-    const futurePrice = currentPrice * Math.pow(1 + inflationRate / 100, years);
-    return `Future Price: $${futurePrice.toFixed(2)}`;
-  };
-
-  const calculateSalary = () => {
-    const { hourlyRate, hoursPerWeek } = toolData;
-    const annualSalary = hourlyRate * hoursPerWeek * 52;
-    return `Annual Salary: $${annualSalary.toFixed(2)}`;
-  };
-
-  const calculateInterest = () => {
-    const { principal, rate, time } = toolData;
-    const interest = (principal * rate * time) / 100;
-    return `Interest: $${interest.toFixed(2)}`;
-  };
-
-  const calculateSalesTax = () => {
-    const { price, taxRate } = toolData;
-    const total = price * (1 + taxRate / 100);
-    return `Total Price (with Tax): $${total.toFixed(2)}`;
-  };
-
-  const tools = [
-    { name: 'Loan Calculator', calculate: calculateLoan, fields: ['loanAmount', 'interestRate', 'years'] },
-    { name: 'Investment Calculator', calculate: calculateInvestment, fields: ['principal', 'rate', 'time'] },
-    { name: 'Inflation Calculator', calculate: calculateInflation, fields: ['currentPrice', 'inflationRate', 'years'] },
-    { name: 'Salary Calculator', calculate: calculateSalary, fields: ['hourlyRate', 'hoursPerWeek'] },
-    { name: 'Interest Rate Calculator', calculate: calculateInterest, fields: ['principal', 'rate', 'time'] },
-    { name: 'Sales Tax Calculator', calculate: calculateSalesTax, fields: ['price', 'taxRate'] },
-  ];
-
   return (
-    <div className="min-h-screen bg-hackerDark text-white p-8">
-      <h1 className="text-5xl font-extrabold text-hackerGreen mb-8 text-center">
-        Financial Knowledge Hub
+    <div className="min-h-screen bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 p-10">
+      <h1 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400 text-center mb-12 tracking-widest">
+        Financial News Highlights
       </h1>
 
-      {/* Tabs */}
-      <div className="flex justify-center mb-8">
-        <button
-          className={`px-6 py-3 rounded-t-lg font-bold ${
-            activeTab === 'Articles' ? 'bg-hackerGreen text-hackerDark' : 'bg-gray-700 text-gray-300'
-          }`}
-          onClick={() => setActiveTab('Articles')}
-        >
-          Articles
-        </button>
-        <button
-          className={`px-6 py-3 rounded-t-lg font-bold ${
-            activeTab === 'Tools' ? 'bg-hackerGreen text-hackerDark' : 'bg-gray-700 text-gray-300'
-          }`}
-          onClick={() => setActiveTab('Tools')}
-        >
-          Tools
-        </button>
+      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {articles.map((article, index) => (
+          <div
+            key={index}
+            className="bg-gray-800 p-6 rounded-3xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 hover:scale-105 flex flex-col justify-between border border-gray-700"
+          >
+            <h2 className="text-2xl font-bold text-gray-100 leading-snug mb-4">
+              {article.title}
+            </h2>
+            <p className="text-gray-400 text-sm mb-6 line-clamp-4">
+              {article.description || "No description available for this article."}
+            </p>
+            <a
+              href={article.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block w-full mt-auto px-4 py-3 text-white bg-gradient-to-r from-blue-600 to-cyan-600 rounded-xl text-center hover:bg-gradient-to-l hover:from-cyan-500 hover:to-blue-500 transition-all"
+            >
+              Read Full Article
+            </a>
+          </div>
+        ))}
       </div>
-
-      {/* Articles Tab */}
-      {activeTab === 'Articles' && (
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {articles.map((article) => (
-            <div key={article._id} className="bg-gray-700 p-4 rounded-lg">
-              <h3 className="text-xl font-bold text-hackerGreen mb-2">{article.title}</h3>
-              <p className="text-gray-300">{article.summary}</p>
-              <Link to={`/article/${article._id}`} target="_blank" rel="noopener noreferrer">
-                <button className="mt-4 bg-hackerGreen text-hackerDark px-4 py-2 rounded font-bold">
-                  Read More
-                </button>
-              </Link>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* Tools Tab */}
-      {activeTab === 'Tools' && (
-        <div>
-          {activeTool ? (
-            <div className="bg-hackerDark border-2 border-hackerGreen p-6 rounded-lg">
-              <h2 className="text-3xl font-bold text-hackerGreen mb-6">{activeTool.name}</h2>
-              {activeTool.fields.map((field) => (
-                <div key={field} className="mb-4">
-                  <input
-                    type="number"
-                    placeholder={field}
-                    onChange={(e) => setToolData({ ...toolData, [field]: parseFloat(e.target.value) })}
-                    className="w-full px-4 py-2 rounded bg-gray-600 text-white focus:outline-none"
-                  />
-                </div>
-              ))}
-              <button
-                onClick={() => alert(activeTool.calculate())}
-                className="mt-4 bg-hackerGreen text-hackerDark px-4 py-2 rounded font-bold"
-              >
-                Calculate
-              </button>
-              <button
-                onClick={() => setActiveTool(null)}
-                className="ml-4 mt-4 bg-red-500 text-white px-4 py-2 rounded font-bold"
-              >
-                Back to Tools
-              </button>
-            </div>
-          ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {tools.map((tool, index) => (
-                <div key={index} className="bg-hackerDark border-2 border-hackerGreen p-6 rounded-lg text-center">
-                  <h2 className="text-2xl font-semibold text-hackerGreen mb-4">{tool.name}</h2>
-                  <button
-                    onClick={() => setActiveTool(tool)}
-                    className="mt-4 bg-hackerGreen text-hackerDark px-4 py-2 rounded font-bold"
-                  >
-                    Use {tool.name}
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
     </div>
   );
 };
