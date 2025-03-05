@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ExpenseContext from '../context/ExpenseContext';
-import { Line, Pie } from 'react-chartjs-2'; // Graph imports
+import { Line, Pie } from 'react-chartjs-2';
 import 'chart.js/auto';
 import { CSVLink } from 'react-csv';
 import './ExpenseManagement.css';
@@ -13,24 +13,20 @@ const ExpenseManager = () => {
   const [sortCriteria, setSortCriteria] = useState('date');
   const [chartType, setChartType] = useState('Pie');
 
-  // Fetch expenses on mount
   useEffect(() => {
     fetchExpenses();
   }, []);
 
-  // Calculate total, min, and max expenses
   const totalExpense = expenses.reduce((total, expense) => total + parseFloat(expense.amount), 0).toFixed(2);
   const minExpense = expenses.length > 0 ? Math.min(...expenses.map((e) => parseFloat(e.amount))) : 0;
   const maxExpense = expenses.length > 0 ? Math.max(...expenses.map((e) => parseFloat(e.amount))) : 0;
 
-  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     addExpense(formData);
     setFormData({ title: '', amount: '', category: 'Food', date: '' });
   };
 
-  // Sorting expenses
   const sortedExpenses = [...expenses].sort((a, b) => {
     if (sortCriteria === 'amount') return b.amount - a.amount;
     if (sortCriteria === 'date') return new Date(b.date) - new Date(a.date);
@@ -38,7 +34,6 @@ const ExpenseManager = () => {
     return 0;
   });
 
-  // Pie chart data preparation
   const categories = ['Food', 'Transportation', 'Rent', 'Utilities', 'Entertainment'];
   const categoryData = categories.map(
     (category) => expenses.filter((expense) => expense.category === category).reduce((sum, item) => sum + parseFloat(item.amount), 0)
@@ -67,7 +62,6 @@ const ExpenseManager = () => {
     ],
   };
 
-  // CSV export data
   const csvData = expenses.map((expense) => ({
     Title: expense.title,
     Amount: expense.amount,
@@ -94,29 +88,29 @@ const ExpenseManager = () => {
       </nav>
 
       {/* Hero Section */}
-      <header className="text-center py-12">
+      <header className="text-center py-12 bg-gray-800">
         <h1 className="text-4xl font-bold">Expense Manager</h1>
         <p className="text-lg mt-4 text-gray-300">Track and manage your expenses effectively.</p>
       </header>
 
       {/* Total, Min, Max Expense */}
-      <section className="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-6 text-center">
-        <div className="p-6 bg-gray-800 rounded-lg shadow-md">
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-6 p-8 bg-gray-800">
+        <div className="p-6 bg-gray-700 rounded-lg shadow-md text-center">
           <h2 className="text-xl font-bold">Total Expense</h2>
           <p className="text-4xl font-semibold mt-2 text-green-400">₹{totalExpense}</p>
         </div>
-        <div className="p-6 bg-gray-800 rounded-lg shadow-md">
+        <div className="p-6 bg-gray-700 rounded-lg shadow-md text-center">
           <h2 className="text-xl font-bold">Minimum Expense</h2>
           <p className="text-4xl font-semibold mt-2 text-red-400">₹{minExpense}</p>
         </div>
-        <div className="p-6 bg-gray-800 rounded-lg shadow-md">
+        <div className="p-6 bg-gray-700 rounded-lg shadow-md text-center">
           <h2 className="text-xl font-bold">Maximum Expense</h2>
           <p className="text-4xl font-semibold mt-2 text-blue-400">₹{maxExpense}</p>
         </div>
       </section>
 
       {/* Clear All Expenses Section */}
-      <section className="max-w-4xl mx-auto px-6 mt-10 text-center">
+      <section className="p-8 bg-gray-800 text-center">
         <button
           onClick={clearAllExpenses}
           className="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-500 transition-all"
@@ -126,9 +120,9 @@ const ExpenseManager = () => {
       </section>
 
       {/* Form and Chart Options Section */}
-      <section className="max-w-6xl mx-auto px-6 mt-10 grid md:grid-cols-2 gap-8">
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-8 p-8 bg-gray-800">
         {/* Left Section: Form */}
-        <div className="bg-gray-800 p-6 rounded-lg shadow-md">
+        <div className="bg-gray-700 p-6 rounded-lg shadow-md">
           <h2 className="text-2xl font-bold mb-6">Add New Expense</h2>
           <form onSubmit={handleSubmit} className="grid gap-4">
             <input
@@ -136,19 +130,19 @@ const ExpenseManager = () => {
               placeholder="Title"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="block w-full px-4 py-3 bg-gray-700 text-white rounded focus:outline-none focus:ring-2 focus:ring-green-400"
+              className="block w-full px-4 py-3 bg-gray-600 text-white rounded focus:outline-none focus:ring-2 focus:ring-green-400"
             />
             <input
               type="number"
               placeholder="Amount"
               value={formData.amount}
               onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
-              className="block w-full px-4 py-3 bg-gray-700 text-white rounded focus:outline-none focus:ring-2 focus:ring-green-400"
+              className="block w-full px-4 py-3 bg-gray-600 text-white rounded focus:outline-none focus:ring-2 focus:ring-green-400"
             />
             <select
               value={formData.category}
               onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-              className="block w-full px-4 py-3 bg-gray-700 text-white rounded focus:outline-none focus:ring-2 focus:ring-green-400"
+              className="block w-full px-4 py-3 bg-gray-600 text-white rounded focus:outline-none focus:ring-2 focus:ring-green-400"
             >
               {categories.map((category) => (
                 <option key={category} value={category}>
@@ -160,7 +154,7 @@ const ExpenseManager = () => {
               type="date"
               value={formData.date}
               onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-              className="block w-full px-4 py-3 bg-gray-700 text-white rounded focus:outline-none focus:ring-2 focus:ring-green-400"
+              className="block w-full px-4 py-3 bg-gray-600 text-white rounded focus:outline-none focus:ring-2 focus:ring-green-400"
             />
             <button className="w-full bg-green-600 text-white py-3 rounded hover:bg-green-500 transition-all">
               Add Expense
@@ -169,24 +163,24 @@ const ExpenseManager = () => {
         </div>
 
         {/* Right Section: Chart Options */}
-        <div className="bg-gray-800 p-6 rounded-lg shadow-md">
+        <div className="bg-gray-700 p-6 rounded-lg shadow-md">
           <h2 className="text-2xl font-bold mb-6">Chart Options</h2>
           <select
             value={chartType}
             onChange={(e) => setChartType(e.target.value)}
-            className="bg-gray-700 text-white px-4 py-2 rounded w-full mb-6 focus:outline-none focus:ring-2 focus:ring-green-400"
+            className="bg-gray-600 text-white px-4 py-2 rounded w-full mb-6 focus:outline-none focus:ring-2 focus:ring-green-400"
           >
             <option value="Pie">Pie Chart</option>
             <option value="Line">Line Chart</option>
           </select>
-          <div className="bg-gray-700 p-6 rounded-lg shadow-md">
+          <div className="bg-gray-600 p-6 rounded-lg shadow-md">
             {chartType === 'Pie' ? <Pie data={pieChartData} /> : <Line data={lineChartData} />}
           </div>
         </div>
       </section>
 
       {/* CSV Download Section */}
-      <section className="max-w-4xl mx-auto px-6 mt-10 text-center">
+      <section className="p-8 bg-gray-800 text-center">
         <CSVLink data={csvData} filename="expenses.csv">
           <button className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-500 transition-all">
             Download CSV
@@ -195,53 +189,52 @@ const ExpenseManager = () => {
       </section>
 
       {/* Expense Table */}
-      <section className="max-w-6xl mx-auto px-6 mt-10 mb-12">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold">Expenses</h2>
-          <select
-            value={sortCriteria}
-            onChange={(e) => setSortCriteria(e.target.value)}
-            className="bg-gray-800 text-white px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-green-400"
-          >
-            <option value="date">Sort by Date</option>
-            <option value="amount">Sort by Amount</option>
-            <option value="category">Sort by Category</option>
-          </select>
-        </div>
-        
-        {/* Table with Scrollable Feature */}
-        <div className="overflow-x-auto bg-gray-800 p-6 rounded-lg shadow-md">
-          <table className="min-w-full text-sm">
-            <thead>
-              <tr className="text-left">
-                <th className="py-3 px-4">Title</th>
-                <th className="py-3 px-4">Amount</th>
-                <th className="py-3 px-4">Category</th>
-                <th className="py-3 px-4">Date</th>
-                <th className="py-3 px-4">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {sortedExpenses.map((expense) => (
-                <tr key={expense._id} className="hover:bg-gray-700">
-                  <td className="py-3 px-4">{expense.title}</td>
-                  <td className="py-3 px-4">{expense.amount}</td>
-                  <td className="py-3 px-4">{expense.category}</td>
-                  <td className="py-3 px-4">{new Date(expense.date).toLocaleDateString()}</td>
-                  <td className="py-3 px-4">
-                    <button
-                      onClick={() => deleteExpense(expense._id)}
-                      className="text-red-500 hover:text-red-400"
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
+      {/* Expense Table */}
+<section className="p-8 bg-gray-800">
+  <div className="flex justify-between items-center mb-6">
+    <h2 className="text-2xl font-bold">Expenses</h2>
+    <select
+      value={sortCriteria}
+      onChange={(e) => setSortCriteria(e.target.value)}
+      className="bg-gray-700 text-white px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-green-400"
+    >
+      <option value="date">Sort by Date</option>
+      <option value="amount">Sort by Amount</option>
+      <option value="category">Sort by Category</option>
+    </select>
+  </div>
+  <div className="overflow-x-auto bg-gray-700 p-6 rounded-lg shadow-md">
+    <table className="min-w-full text-sm">
+      <thead>
+        <tr className="text-left">
+          <th className="py-4 px-6 text-lg font-bold">Title</th>
+          <th className="py-4 px-6 text-lg font-bold">Amount</th>
+          <th className="py-4 px-6 text-lg font-bold">Category</th>
+          <th className="py-4 px-6 text-lg font-bold">Date</th>
+          <th className="py-4 px-6 text-lg font-bold">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {sortedExpenses.map((expense) => (
+          <tr key={expense._id} className="hover:bg-gray-600">
+            <td className="py-4 px-6 text-lg">{expense.title}</td>
+            <td className="py-4 px-6 text-lg">₹{expense.amount}</td>
+            <td className="py-4 px-6 text-lg">{expense.category}</td>
+            <td className="py-4 px-6 text-lg">{new Date(expense.date).toLocaleDateString()}</td>
+            <td className="py-4 px-6 text-lg">
+              <button
+                onClick={() => deleteExpense(expense._id)}
+                className="text-red-500 hover:text-red-400"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</section>
     </div>
   );
 };
