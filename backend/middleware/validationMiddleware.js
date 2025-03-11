@@ -19,4 +19,5 @@ const validateLoanRequest = (method) => {
   }
 };
 
-module.exports = validateLoanRequest;
+// Export the function
+module.exports = { validateLoanRequest };

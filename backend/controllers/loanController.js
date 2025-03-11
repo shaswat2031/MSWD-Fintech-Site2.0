@@ -7,7 +7,8 @@ exports.createLoan = async (req, res) => {
   try {
     const monthlyInterestRate = interestRate / 100 / 12;
     const monthlyInstallment =
-      loanAmount * monthlyInterestRate / (1 - Math.pow(1 + monthlyInterestRate, -installmentPeriod));
+      (loanAmount * monthlyInterestRate) /
+      (1 - Math.pow(1 + monthlyInterestRate, -installmentPeriod));
 
     const newLoan = new Loan({
       user,
@@ -23,7 +24,7 @@ exports.createLoan = async (req, res) => {
 
     res.status(201).json({
       message: 'Loan created successfully!',
-      loanId: savedLoan._id, // Loan ID
+      loanId: savedLoan._id,
       user: savedLoan.user,
       loanAmount: savedLoan.loanAmount,
       interestRate: savedLoan.interestRate,
@@ -48,7 +49,7 @@ exports.getLoanStatus = async (req, res) => {
 
     res.status(200).json({
       message: 'Loan details fetched successfully!',
-      loanId: loan._id, // Loan ID
+      loanId: loan._id,
       user: loan.user,
       loanAmount: loan.loanAmount.toFixed(2),
       interestRate: loan.interestRate.toFixed(2),
@@ -98,7 +99,6 @@ exports.getLoanByUser = async (req, res) => {
 // Get all ongoing loans
 exports.getOngoingLoans = async (req, res) => {
   try {
-    // Fetch loans with a positive remaining balance
     const loans = await Loan.find({ remainingBalance: { $gt: 0 } });
 
     res.status(200).json({
@@ -110,14 +110,21 @@ exports.getOngoingLoans = async (req, res) => {
   }
 };
 
-
-// Simulate payment (not included in your code above but assumed)
+// Make a payment
 exports.makePayment = async (req, res) => {
-  const { loanId, paymentAmount } = req.body;
+  let { loanId, paymentAmount } = req.body;
 
   try {
-    const loan = await Loan.findById(loanId);
+    if (!loanId || !paymentAmount) {
+      return res.status(400).json({ message: 'Loan ID and payment amount are required' });
+    }
 
+    paymentAmount = parseFloat(paymentAmount);
+    if (isNaN(paymentAmount) || paymentAmount <= 0) {
+      return res.status(400).json({ message: 'Invalid payment amount' });
+    }
+
+    const loan = await Loan.findById(loanId);
     if (!loan) {
       return res.status(404).json({ message: 'Loan not found' });
     }
@@ -127,7 +134,6 @@ exports.makePayment = async (req, res) => {
     }
 
     loan.remainingBalance -= paymentAmount;
-
     loan.payments.push({
       amount: paymentAmount,
       date: new Date(),
@@ -140,6 +146,7 @@ exports.makePayment = async (req, res) => {
       updatedLoan,
     });
   } catch (error) {
+    console.error('Payment Error:', error);
     res.status(500).json({ message: 'Error making payment', error });
   }
 };

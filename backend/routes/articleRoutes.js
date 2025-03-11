@@ -1,7 +1,6 @@
-// routes/articleRoutes.js
 const express = require('express');
 const router = express.Router();
-const Article = require('../models/Article');  // Ensure this is pointing to your correct Article model
+const Article = require('../models/Article'); // Ensure this points to your Article model
 
 // Get all articles with pagination and sorting by creation date
 router.get('/', async (req, res) => {
@@ -10,13 +9,14 @@ router.get('/', async (req, res) => {
 
   try {
     const articles = await Article.find()
-      .sort({ createdAt: -1 })
-      .skip((page - 1) * limit)
+      .sort({ createdAt: -1 }) // Sort by creation date (newest first)
+      .skip((page - 1) * limit) // Pagination logic
       .limit(limit);
 
     if (articles.length === 0) {
       return res.status(404).json({ message: 'No articles found' });
     }
+
     res.json(articles);
   } catch (error) {
     console.error('Error fetching articles:', error);
